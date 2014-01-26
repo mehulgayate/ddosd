@@ -54,7 +54,7 @@
 		<property name="dataSource" ref="dataSource" />
 
 		<!-- Tells Hibernate where to look for annotation-marked persistent entity objects -->
-		<property name="packagesToScan" value="com.cam.entity" />
+		<property name="packagesToScan" value="com.ddosd.facade.entity" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">${db.hbm2ddl}</prop>
@@ -71,5 +71,18 @@
 	<bean id="dataStoreManager"
 		class="com.evalua.entity.support.DataStoreManager">
 		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="facadeRepository"
+		class="com.ddosd.facade.entity.FacadeRepository">
+		<property name="sessionFactory" ref="sessionFactory" />
+		
+	</bean>
+	<bean id="userService"
+		class="com.ddosd.facade.service.UserService">
+		<property name="facadeRepository" ref="facadeRepository" />
+	</bean>		
+	<bean id="facadeService"
+		class="com.ddosd.facade.web.support.FacadeService">
 	</bean>	
+	
 </beans>

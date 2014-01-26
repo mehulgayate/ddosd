@@ -48,7 +48,7 @@ http://www.springframework.org/schema/context/spring-context.xsd ">
 
  
     <context:component-scan
-        base-package="com.ddosd.api.web" />
+        base-package="com.ddosd.api.web, com.ddosd.facade.web" />
          
     <bean id="viewResolver"
         class="org.springframework.web.servlet.view.UrlBasedViewResolver">
