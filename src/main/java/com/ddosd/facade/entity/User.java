@@ -16,7 +16,7 @@ public class User extends EntityBase{
 	private String password;
 	private AccessToken accessToken;
 	
-	@OneToOne(cascade=CascadeType.REFRESH,fetch=FetchType.EAGER)
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	public AccessToken getAccessToken() {
 		return accessToken;
 	}

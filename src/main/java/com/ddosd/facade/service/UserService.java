@@ -18,7 +18,6 @@ public class UserService {
 	}
 	
 	public User validate(String email,String password){
-		System.out.println(facadeRepository+" **************");
 		User user=facadeRepository.findUserByEmail(email);
 		if(user!=null){
 			if(user.getPassword().equals(password)){

@@ -2,7 +2,9 @@ package com.evalua.entity.support;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class DataStoreManager {
 
 	private SessionFactory sessionFactory;	
@@ -18,7 +20,7 @@ public class DataStoreManager {
 	}
 
 	private Session getSession(){
-		return sessionFactory.openSession();
+		return sessionFactory.getCurrentSession();
 	}
 
 }
