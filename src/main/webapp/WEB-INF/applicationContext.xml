@@ -74,23 +74,21 @@
 	</bean>
 	<bean id="facadeRepository"
 		class="com.ddosd.facade.entity.FacadeRepository">
-		<property name="sessionFactory" ref="sessionFactory" />
-		
+		<property name="sessionFactory" ref="sessionFactory" />		
 	</bean>
-	<bean id="facadeRepository"
-		class="com.ddosd.facade.entity.FacadeRepository">
-		<property name="sessionFactory" ref="sessionFactory" />
-		
-	</bean>
+	<bean id="userService"
+		class="com.ddosd.facade.service.UserService">
+		<property name="facadeRepository" ref="facadeRepository" />				
+	</bean>	
 	<bean id="facadeConfig"
 		class="com.ddosd.facade.FacadeConfig">
-		<property name=initialTrustScore>
+		<property name="initialTrustScore">
        		 <value>${ddosd.facade.initialTrustScore}</value>
    		</property>
-   		<property name=threshod>
+   		<property name="threshod">
        		 <value>${ddosd.facade.threshod}</value>
    		</property>
-   		<property name=bufferSize>
+   		<property name="bufferSize">
        		 <value>${ddosd.facade.bufferSize}</value>
    		</property>
 	</bean>		
@@ -98,6 +96,7 @@
 		class="com.ddosd.facade.web.support.FacadeService">
 		<property name="config" ref="facadeConfig" />
 		<property name="dataStoreManager" ref="dataStoreManager" />
+		<property name="repository" ref="facadeRepository" />
 		
 	</bean>	
 	

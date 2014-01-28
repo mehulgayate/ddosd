@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ddosd.facade.entity.AccessToken;
 import com.ddosd.facade.entity.FacadeRepository;
 import com.ddosd.facade.entity.User;
+import com.ddosd.facade.entity.User.UserStatus;
 import com.ddosd.facade.service.UserService;
 import com.ddosd.facade.web.support.FacadeService;
 import com.evalua.entity.support.DataStoreManager;
@@ -71,6 +72,7 @@ public class DetectionInterceptor implements HandlerInterceptor {
 				}
 				out.print(facadeService.getAccessTokenResponse(accessToken, user));
 				out.flush();
+				return false;
 			}else{
 				out.print(facadeService.getErrorResponse(new Long(101), "email / password wrong."));
 				out.flush();
@@ -94,7 +96,16 @@ public class DetectionInterceptor implements HandlerInterceptor {
 				out.flush();
 				return false;
 			}
-			
+			if(user.getStatus()==UserStatus.BLOCKED){
+				out.print(facadeService.getErrorResponse(new Long(104), "User is blocked, Kindly contact admin@ddosd.com"));
+				out.flush();
+				return false;
+			}
+			if(!facadeService.checkUserForDdosAttack(user)){
+				out.print(facadeService.getErrorResponse(new Long(104), "User is blocked, Kindly contact admin@ddosd.com"));
+				out.flush();
+				return false;
+			}
 		}
 		return true;
 	}

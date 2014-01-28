@@ -33,7 +33,7 @@ public class FacadeRepository {
 	}
 	
 	public com.ddosd.facade.entity.Session findActiveSessionByUser(User user){
-		return (com.ddosd.facade.entity.Session) getSession().createQuery("From "+UserSession.class.getName()+" where user=:user AND status=:status")
+		return (com.ddosd.facade.entity.Session) getSession().createQuery("select session From "+UserSession.class.getName()+" us where us.user=:user AND us.status=:status")
 				.setParameter("user",user)
 				.setParameter("status", SessionStatus.ACTIVE).uniqueResult();	
 	}

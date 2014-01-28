@@ -13,7 +13,7 @@ public class Session extends EntityBase {
 	
 	private Date startTime;
 	private Date endTime;
-	private Long requestCount;
+	private Integer requestCount=0;
 	
 	public Date getStartTime() {
 		return startTime;
@@ -27,10 +27,10 @@ public class Session extends EntityBase {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}	
-	public Long getRequestCount() {
+	public Integer getRequestCount() {
 		return requestCount;
 	}
-	public void setRequestCount(Long requestCount) {
+	public void setRequestCount(Integer requestCount) {
 		this.requestCount = requestCount;
 	}
 	

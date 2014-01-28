@@ -1,5 +1,7 @@
 package com.ddosd.facade.web.support;
 
+import java.util.Date;
+
 import com.ddosd.facade.BuffredThread;
 import com.ddosd.facade.BuffredThreadQueue;
 import com.ddosd.facade.FacadeConfig;
@@ -8,6 +10,8 @@ import com.ddosd.facade.entity.FacadeRepository;
 import com.ddosd.facade.entity.Session;
 import com.ddosd.facade.entity.User;
 import com.ddosd.facade.entity.User.UserStatus;
+import com.ddosd.facade.entity.UserSession;
+import com.ddosd.facade.entity.UserSession.SessionStatus;
 import com.evalua.entity.support.DataStoreManager;
 
 import net.sf.json.JSONObject;
@@ -53,7 +57,19 @@ public class FacadeService {
 	public boolean checkUserForDdosAttack(User user){
 
 		Session session=repository.findActiveSessionByUser(user);
-		if((user.getTrustScore()+config.getThreshod())>session.getRequestCount()){
+		if(session==null){
+			session=new Session();
+			session.setStartTime(new Date());
+			UserSession userSession=new UserSession();
+			userSession.setSession(session);
+			userSession.setUser(user);
+			userSession.setStatus(SessionStatus.ACTIVE);
+			session.setRequestCount(session.getRequestCount()+1);
+			dataStoreManager.save(session);
+			dataStoreManager.save(userSession);
+			
+		}
+		if((user.getTrustScore()+config.getThreshod())<session.getRequestCount()){
 			if((user.getTrustScore()+config.getThreshod()+config.getBufferSize())<=session.getRequestCount()){
 				Thread currentThread=Thread.currentThread();
 				BuffredThread buffredThread=new BuffredThread();

@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
+import com.evalua.entity.support.EntityBase;
+
 @Entity
-public class UserSession {
+public class UserSession extends EntityBase {
 
 	public enum SessionStatus{
 		ACTIVE,INACTIVE,SUSPENDED;
