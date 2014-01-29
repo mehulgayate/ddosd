@@ -14,6 +14,10 @@ public class User extends EntityBase{
 		ACTIVE,BLOCKED,DELETED;
 	}
 	
+	public enum UserRole{
+		ADMIN,NORMAL;
+	}
+	
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -21,7 +25,14 @@ public class User extends EntityBase{
 	private AccessToken accessToken;
 	private Integer trustScore=10;	
 	private UserStatus status;
+	private UserRole role;	
 	
+	public UserRole getRole() {
+		return role;
+	}
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
 	public UserStatus getStatus() {
 		return status;
 	}

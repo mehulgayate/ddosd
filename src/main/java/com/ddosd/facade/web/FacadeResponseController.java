@@ -33,4 +33,20 @@ public class FacadeResponseController {
 		
 		return mv;
 	}
+	
+	
+	@RequestMapping("/admin-login")
+	public ModelAndView showAdminLogin(){
+		ModelAndView mv=new ModelAndView("in-admin-panel/login");
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping("/admin")
+	public ModelAndView showAdminScreen(){
+		ModelAndView mv=new ModelAndView("in-admin-panel/index");
+		
+		return mv;
+	}
 }

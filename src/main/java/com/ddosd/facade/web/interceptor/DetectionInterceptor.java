@@ -1,6 +1,7 @@
 package com.ddosd.facade.web.interceptor;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,18 @@ public class DetectionInterceptor implements HandlerInterceptor {
 
 	@Resource
 	private FacadeRepository repository;	
+	
+	List<String> ignoreAuthenticationActions;
+
+	
+	public List<String> getIgnoreAuthenticationActions() {
+		return ignoreAuthenticationActions;
+	}
+
+	public void setIgnoreAuthenticationActions(
+			List<String> ignoreAuthenticationActions) {
+		this.ignoreAuthenticationActions = ignoreAuthenticationActions;
+	}
 
 
 	public void setRepository(FacadeRepository repository) {
@@ -54,6 +67,11 @@ public class DetectionInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, Object handler) throws Exception {
 		String requestURI = request.getRequestURI();
 		PrintWriter out=response.getWriter();
+		
+		
+		if (ignoreAuthenticationActions.contains(requestURI)) {
+			return true;
+		}
 
 		System.out.println("*********** "+requestURI);
 		if(requestURI.indexOf("login")>=0){
