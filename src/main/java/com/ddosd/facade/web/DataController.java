@@ -20,14 +20,7 @@ public class DataController {
 	public ModelAndView seedUser(){
 		ModelAndView mv= new ModelAndView("json-string");
 		
-		User user=new User();
-		user.setEmail("mehul@gmail.com");
-		user.setFirstName("Mehul");
-		user.setLastName("Gayate");
-		user.setPassword("123");
-		user.setStatus(UserStatus.ACTIVE);
-		user.setTrustScore(20);
-		dataStoreManager.save(user);
+		
 		return mv;
 	}
 }

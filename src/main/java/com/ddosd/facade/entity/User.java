@@ -18,14 +18,13 @@ public class User extends EntityBase{
 		ADMIN,NORMAL;
 	}
 	
-	private String firstName;
-	private String lastName;
+	private String name;
 	private String email;
 	private String password;
 	private AccessToken accessToken;
 	private Integer trustScore=10;	
-	private UserStatus status;
-	private UserRole role;	
+	private UserStatus status=UserStatus.ACTIVE;
+	private UserRole role=UserRole.NORMAL;	
 	
 	public UserRole getRole() {
 		return role;
@@ -51,18 +50,12 @@ public class User extends EntityBase{
 	}
 	public void setAccessToken(AccessToken accessToken) {
 		this.accessToken = accessToken;
+	}	
+	public String getName() {
+		return name;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getEmail() {
 		return email;

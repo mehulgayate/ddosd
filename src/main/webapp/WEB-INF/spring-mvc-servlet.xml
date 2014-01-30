@@ -35,7 +35,9 @@ http://www.springframework.org/schema/context/spring-context.xsd ">
                         <property name="ignoreAuthenticationActions">
                                 <list>
                                         <value>/admin</value>
-                                        <value>/admin-login</value>                                        
+                                        <value>/admin-login</value>
+                                        <value>/register</value>
+                                        <value>/register/add</value>                                        
                                 </list>
                          </property>
                 </bean>

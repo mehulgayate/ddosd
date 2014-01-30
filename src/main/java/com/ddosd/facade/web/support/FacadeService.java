@@ -12,6 +12,7 @@ import com.ddosd.facade.entity.User;
 import com.ddosd.facade.entity.User.UserStatus;
 import com.ddosd.facade.entity.UserSession;
 import com.ddosd.facade.entity.UserSession.SessionStatus;
+import com.ddosd.facade.entity.support.UserForm;
 import com.evalua.entity.support.DataStoreManager;
 
 import net.sf.json.JSONObject;
@@ -93,6 +94,15 @@ public class FacadeService {
 		}
 
 		return true;
+	}
+	
+	
+	public void addUser(UserForm userForm){
+		User user=new User();
+		user.setEmail(userForm.getEmail());
+		user.setName(userForm.getName());
+		user.setPassword(userForm.getPassword());
+		dataStoreManager.save(user);
 	}
 
 }
