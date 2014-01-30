@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ddosd.facade.entity.User;
@@ -72,6 +73,21 @@ public class FacadeResponseController {
 	public ModelAndView registerNewUser(HttpServletRequest request,@ModelAttribute(UserForm.key) UserForm userForm){
 		ModelAndView mv=new ModelAndView("signup/complete");
 		facadeService.addUser(userForm);
+		return mv;
+	}
+	
+	
+	@RequestMapping("/user/login")
+	public ModelAndView userLogin(HttpServletRequest request){
+		ModelAndView mv=new ModelAndView("service-invoke/login");
+		return mv;
+	}
+	
+	@RequestMapping("/invoke-service")
+	public ModelAndView invokePage(HttpServletRequest request,@RequestParam String accessToken,@RequestParam String userId){
+		ModelAndView mv=new ModelAndView("service-invoke/invoke");
+		mv.addObject("userId", userId);
+		mv.addObject("accessToken", accessToken);
 		return mv;
 	}
 }

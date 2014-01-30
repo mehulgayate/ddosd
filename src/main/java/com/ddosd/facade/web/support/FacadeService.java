@@ -22,7 +22,7 @@ public class FacadeService {
 	private FacadeConfig config;	
 
 	private FacadeRepository repository;	
-	
+
 	private DataStoreManager dataStoreManager;	
 
 	public void setDataStoreManager(DataStoreManager dataStoreManager) {
@@ -58,18 +58,21 @@ public class FacadeService {
 	public boolean checkUserForDdosAttack(User user){
 
 		Session session=repository.findActiveSessionByUser(user);
-		if(session==null){
-			session=new Session();
-			session.setStartTime(new Date());
-			UserSession userSession=new UserSession();
-			userSession.setSession(session);
-			userSession.setUser(user);
-			userSession.setStatus(SessionStatus.ACTIVE);
-			session.setRequestCount(session.getRequestCount()+1);
-			dataStoreManager.save(session);
-			dataStoreManager.save(userSession);
-			
-		}
+		session.setRequestCount(session.getRequestCount()+1);
+		//		if(session==null){
+		//			session=new Session();
+		//			session.setStartTime(new Date());
+		//			UserSession userSession=new UserSession();
+		//			userSession.setSession(session);
+		//			userSession.setUser(user);
+		//			userSession.setStatus(SessionStatus.ACTIVE);
+		//			session.setRequestCount(session.getRequestCount()+1);
+		//			dataStoreManager.save(userSession);
+		//			
+		//		}
+
+		dataStoreManager.save(session);
+
 		if((user.getTrustScore()+config.getThreshod())<session.getRequestCount()){
 			if((user.getTrustScore()+config.getThreshod()+config.getBufferSize())<=session.getRequestCount()){
 				Thread currentThread=Thread.currentThread();
@@ -95,8 +98,8 @@ public class FacadeService {
 
 		return true;
 	}
-	
-	
+
+
 	public void addUser(UserForm userForm){
 		User user=new User();
 		user.setEmail(userForm.getEmail());

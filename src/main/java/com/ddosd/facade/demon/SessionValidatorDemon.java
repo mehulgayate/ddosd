@@ -9,14 +9,18 @@ import java.util.TimerTask;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ddosd.facade.BuffredThread;
 import com.ddosd.facade.BuffredThreadQueue;
+import com.ddosd.facade.entity.AccessToken;
 import com.ddosd.facade.entity.UserSession;
 import com.ddosd.facade.entity.UserSession.SessionStatus;
 
+@Transactional
 public class SessionValidatorDemon extends TimerTask{
 	
 	public static Logger logger = LoggerFactory.getLogger(SessionValidatorDemon.class);
@@ -49,18 +53,28 @@ public class SessionValidatorDemon extends TimerTask{
 		Query query=hibernateSession.createQuery("select session From "+UserSession.class.getName()+" us where us.status=:status");
 		query.setParameter("status", SessionStatus.ACTIVE);
 		List<com.ddosd.facade.entity.Session> userSessions=query.list();
-		
+		System.out.println("****** user Session Size "+userSessions.size());
+		Transaction tr=hibernateSession.beginTransaction();
 		for (com.ddosd.facade.entity.Session session : userSessions) {
+			System.out.println(getChangedDateByMins(new Date(),-10)+" ****** user  "+session.getStartTime());
+
 			if(session.getStartTime().before(getChangedDateByMins(new Date(),-10))){
+				System.out.println("inside inner if");
 				session.setEndTime(new Date());
-				Query queryBlock=hibernateSession.createQuery("From "+UserSession.class.getName()+" us where session=:session");
-				query.setParameter("session", session);
+				Query queryBlock=hibernateSession.createQuery("From "+UserSession.class.getName()+" us where us.session=:session");
+				queryBlock.setParameter("session", session);
 				UserSession userSession=(UserSession) queryBlock.uniqueResult();
 				userSession.setStatus(SessionStatus.INACTIVE);
 				hibernateSession.update(session);
 				hibernateSession.update(userSession);
+				AccessToken accessToken=userSession.getUser().getAccessToken();				
+				userSession.getUser().setAccessToken(null);
+				hibernateSession.delete(accessToken);
+				hibernateSession.update(userSession.getUser());
 			}
 		}
+		tr.commit();
+		hibernateSession.close();
 	}
 	
 	private Date getChangedDateByMins(Date date,int change){
