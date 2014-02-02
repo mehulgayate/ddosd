@@ -63,6 +63,14 @@ public class FacadeResponseController {
 		}
 		return mv;
 	}
+	
+
+	@RequestMapping("/")
+	public ModelAndView home(HttpSession httpSession){
+		ModelAndView mv=new ModelAndView("index");
+		
+		return mv;
+	}
 
 
 	@RequestMapping("/admin-login")
