@@ -70,10 +70,13 @@
     </section>
   </div>
   
+  <div class="ajaxLoader" style="display: none; position: absolute; margin: 0 649px; top:400px;"><img style="" src="/static/images/ajax-loader.gif"> </div>
+  
   <script type="text/javascript">
 $(function() {
 	$("#userServiceInvokeButton").click(function(){
 		
+		$(".ajaxLoader").show();
 		$.ajax({
 			url : $("#userServiceUrl").val(),
 			type : "get",
@@ -86,10 +89,13 @@ $(function() {
 				} else {
 					$("#userResponse").val(JSON.stringify(data));					
 				}
+				$(".ajaxLoader").hide();
 
 			},
 			error : function() {
 				alert("Error At Server");
+				$(".ajaxLoader").hide();
+
 			}
 		});
 	});

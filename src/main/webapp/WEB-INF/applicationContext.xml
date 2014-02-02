@@ -73,7 +73,8 @@
 	    <constructor-arg><value>${monitor.delay}</value></constructor-arg>
 	    <constructor-arg><value>${monitor.interval}</value></constructor-arg>
 	</bean>
-	<bean id="bufferedThreadSchedular" class="com.ddosd.facade.demon.BuffredThredQueueDemon" init-method="init">	  
+	<bean id="bufferedThreadSchedular" class="com.ddosd.facade.demon.BuffredThredQueueDemon" init-method="init">
+	    <constructor-arg ref="sessionFactory" />		  
 	    <constructor-arg><value>${schedular.delay}</value></constructor-arg>
 	    <constructor-arg><value>${schedular.interval}</value></constructor-arg>
 	</bean>

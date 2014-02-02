@@ -24,8 +24,15 @@ public class User extends EntityBase{
 	private AccessToken accessToken;
 	private Integer trustScore=10;	
 	private UserStatus status=UserStatus.ACTIVE;
-	private UserRole role=UserRole.NORMAL;	
+	private UserRole role=UserRole.NORMAL;
+	private Integer lastSessionCount;
 	
+	public Integer getLastSessionCount() {
+		return lastSessionCount;
+	}
+	public void setLastSessionCount(Integer lastSessionCount) {
+		this.lastSessionCount = lastSessionCount;
+	}
 	public UserRole getRole() {
 		return role;
 	}

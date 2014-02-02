@@ -82,6 +82,12 @@ public class DetectionInterceptor implements HandlerInterceptor {
 			String password=request.getParameter("password");
 			User user=userService.validate(email, password);
 			response.setContentType("application/json");
+			if(user.getStatus()==UserStatus.BLOCKED){
+				PrintWriter out=response.getWriter();
+				out.print(facadeService.getErrorResponse(new Long(104), "User is blocked, Kindly contact admin@ddosd.com"));
+				out.flush();
+				return false;
+			}
 
 			if(user!=null){
 				AccessToken accessToken=user.getAccessToken();

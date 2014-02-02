@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ddosd.facade.BuffredThread;
 import com.ddosd.facade.BuffredThreadQueue;
 import com.ddosd.facade.entity.AccessToken;
+import com.ddosd.facade.entity.DemonEvent;
+import com.ddosd.facade.entity.DemonEvent.DemonType;
 import com.ddosd.facade.entity.UserSession;
 import com.ddosd.facade.entity.UserSession.SessionStatus;
 
@@ -55,6 +57,9 @@ public class SessionValidatorDemon extends TimerTask{
 		List<com.ddosd.facade.entity.Session> userSessions=query.list();
 		System.out.println("****** user Session Size "+userSessions.size());
 		Transaction tr=hibernateSession.beginTransaction();
+		DemonEvent demonEvent=new DemonEvent();
+		demonEvent.setStartTime(new Date());
+		demonEvent.setType(DemonType.SESSION_VALIDATOR_DEMON);
 		for (com.ddosd.facade.entity.Session session : userSessions) {
 			System.out.println(getChangedDateByMins(new Date(),-10)+" ****** user  "+session.getStartTime());
 
@@ -73,6 +78,8 @@ public class SessionValidatorDemon extends TimerTask{
 				hibernateSession.update(userSession.getUser());
 			}
 		}
+		demonEvent.setEndTime(new Date());
+		hibernateSession.save(demonEvent);
 		tr.commit();
 		hibernateSession.close();
 	}

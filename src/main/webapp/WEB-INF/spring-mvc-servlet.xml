@@ -36,12 +36,15 @@ http://www.springframework.org/schema/context/spring-context.xsd ">
                                 <list>
                                         <value>/admin</value>
                                         <value>/admin-login</value>
+                                        <value>/admin/delete-user</value>
                                         <value>/register</value>
                                         <value>/register/add</value>  
                                         <value>/user/login</value>    
-                                        <value>/invoke-service</value>   
-                                        
-                                                                      
+                                        <value>/invoke-service</value>  
+                                        <value>/blocked-users</value>    
+                                        <value>/admin/activate-monitor</value>  
+                                        <value>/admin/activate-user</value>  
+                                                                                                              
                                 </list>
                          </property>
                 </bean>

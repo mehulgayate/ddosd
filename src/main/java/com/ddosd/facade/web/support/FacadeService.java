@@ -74,20 +74,26 @@ public class FacadeService {
 		dataStoreManager.save(session);
 
 		if((user.getTrustScore()+config.getThreshod())<session.getRequestCount()){
-			if((user.getTrustScore()+config.getThreshod()+config.getBufferSize())<=session.getRequestCount()){
+
+			System.out.println(user.getTrustScore()+config.getThreshod()+config.getBufferSize()+ " <= " +session.getRequestCount());
+
+			if((user.getTrustScore()+config.getThreshod()+config.getBufferSize())>=session.getRequestCount()){
 				Thread currentThread=Thread.currentThread();
 				BuffredThread buffredThread=new BuffredThread();
 				buffredThread.setThread(currentThread);
 				buffredThread.setPriority(1);
 				buffredThread.setUser(user);
 				BuffredThreadQueue.buffredThreads.offer(buffredThread);
-				try {
-					currentThread.wait();
-					System.out.println("Thread in Buffer  for User Id ****** "+user.getId());
-					System.out.println("Thread Size is now : "+ BuffredThreadQueue.buffredThreads.size());
-				} catch (InterruptedException e) {
-					System.out.println("Unable to wait thread ******");
-					e.printStackTrace();
+
+				synchronized (currentThread) {
+					try {
+						currentThread.wait();
+						System.out.println("Thread in Buffer  for User Id ****** "+user.getId());
+						System.out.println("Thread Size is now : "+ BuffredThreadQueue.buffredThreads.size());
+					} catch (InterruptedException e) {
+						System.out.println("Unable to wait thread ******");
+						e.printStackTrace();
+					}
 				}
 			}else{
 				user.setStatus(UserStatus.BLOCKED);

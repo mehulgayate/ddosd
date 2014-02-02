@@ -60,9 +60,12 @@ ddaccordion.init({
     
                     <div class="menu">
                     <ul>
-                    <li><a class="current" href="#">Admin Home</a></li>
-                    <li><a href="/blocked-users">Blocked Users<!--[if IE 7]><!--></a><!--<![endif]--></li>
-                    <li><a class="" href="/admin/activate-monitor">Demon Monitor</a></li>                   
+                    <li><a href="/admin">Admin Home</a></li>
+                    <li><a class="current"href="/blocked-users">Blocked Users<!--[if IE 7]><!--></a><!--<![endif]-->                    </li>
+                    
+                    <li><a class="" href="/admin/activate-monitor">Demon Monitor</a></li>
+                    
+                    
                     </ul>
                     </div> 
                     
@@ -83,18 +86,19 @@ ddaccordion.init({
             <th scope="col" class="rounded">Email</th>
             <th scope="col" class="rounded">Trust Score</th>
             <th scope="col" class="rounded">Last Session Requests</th>
+            <th scope="col" class="rounded">Activate</th>
             <th scope="col" class="rounded-q4">Delete</th>
         </tr>
     </thead>
         <tfoot>
     	<tr>
-        	<td colspan="5" class="rounded-foot-left"><em>Listing All Users Above</em></td>
+        	<td colspan="6" class="rounded-foot-left"><em>Blocked Users Shown Above</em></td>
         	<td class="rounded-foot-right">&nbsp;</td>
 
         </tr>
     </tfoot>
-    <tbody>    	
-        <c:forEach var="user" items="${users}">
+    <tbody>
+    	<c:forEach var="user" items="${users}">
         
         <tr>   	 
         	<td><c:out value="${user.id}"/></td>
@@ -102,9 +106,11 @@ ddaccordion.init({
             <td><c:out value="${user.email}"/></td>
             <td><c:out value="${user.trustScore}"/></td>
             <td><c:out value="${user.lastSessionCount}"/></td>
+            <td><a href="/admin/activate-user?userId=${user.id}"><img src="/static/images/user_edit.png" alt="" title="" border="0" /></a></td>            
             <td><a href="/admin/delete-user?userId=${user.id}" class="ask"><img src="/static/images/trash.png" alt="" title="" border="0" /></a></td>
         </tr>         
-        </c:forEach>        
+        </c:forEach>    
+        
     </tbody>
 </table>      
      </div><!-- end of right content-->

@@ -60,9 +60,12 @@ ddaccordion.init({
     
                     <div class="menu">
                     <ul>
-                    <li><a class="current" href="#">Admin Home</a></li>
-                    <li><a href="/blocked-users">Blocked Users<!--[if IE 7]><!--></a><!--<![endif]--></li>
-                    <li><a class="" href="/admin/activate-monitor">Demon Monitor</a></li>                   
+                    <li><a href="/admin">Admin Home</a></li>
+                    <li><a class="current"href="/blocked-users">Blocked Users<!--[if IE 7]><!--></a><!--<![endif]-->                    </li>
+                    
+                    <li><a class="" href="/demon-monitor">Demon Monitor</a></li>
+                    
+                    
                     </ul>
                     </div> 
                     
@@ -79,32 +82,37 @@ ddaccordion.init({
     <thead>
     	<tr>
         	<th scope="col" class="rounded-company"></th>
-            <th scope="col" class="rounded">Name</th>
-            <th scope="col" class="rounded">Email</th>
-            <th scope="col" class="rounded">Trust Score</th>
-            <th scope="col" class="rounded">Last Session Requests</th>
-            <th scope="col" class="rounded-q4">Delete</th>
+            <th scope="col" class="rounded">Demon Type</th>
+            <th scope="col" class="rounded">Start Time</th>
+            <th scope="col" class="rounded">End Time</th>          
         </tr>
     </thead>
         <tfoot>
     	<tr>
-        	<td colspan="5" class="rounded-foot-left"><em>Listing All Users Above</em></td>
+        	<td colspan="6" class="rounded-foot-left"><em>Latest Demon Run Shown Above.</em></td>
         	<td class="rounded-foot-right">&nbsp;</td>
 
         </tr>
     </tfoot>
-    <tbody>    	
-        <c:forEach var="user" items="${users}">
+    <tbody>
         
         <tr>   	 
-        	<td><c:out value="${user.id}"/></td>
-            <td><c:out value="${user.name}"/></td>
-            <td><c:out value="${user.email}"/></td>
-            <td><c:out value="${user.trustScore}"/></td>
-            <td><c:out value="${user.lastSessionCount}"/></td>
-            <td><a href="/admin/delete-user?userId=${user.id}" class="ask"><img src="/static/images/trash.png" alt="" title="" border="0" /></a></td>
+        	<td><c:out value="${queueDemon.id}"/></td>
+            <td><c:out value="${queueDemon.type}"/></td>
+            <td><c:out value="${queueDemon.startTime}"/></td>
+            <td><c:out value="${queueDemon.endTime}"/></td>
+            
+           
+        </tr> 
+        <tr>   	 
+        	<td><c:out value="${sessionDemon.id}"/></td>
+            <td><c:out value="${sessionDemon.type}"/></td>
+            <td><c:out value="${sessionDemon.startTime}"/></td>
+            <td><c:out value="${sessionDemon.endTime}"/></td>
+            
+           
         </tr>         
-        </c:forEach>        
+        
     </tbody>
 </table>      
      </div><!-- end of right content-->
