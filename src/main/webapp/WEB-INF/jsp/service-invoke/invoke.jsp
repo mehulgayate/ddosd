@@ -45,29 +45,20 @@
           
         </label>
       </p>
-      <p class="submit"><input type="button" name="commit" value="Invoke Service" id="userServiceInvokeButton"></p>
-      
+      <p class="submit"><a class= "loginLink" href="/user/login" style="display:none; margin-right: 5px;">Login Again</a><input type="button" name="commit" value="Invoke Service" id="userServiceInvokeButton"></p>
+       
       
       <br>
-      <br>
-       <div class="reg_section password reg_section personal_info">
-               <h3>User Sessions Detail Service URL</h3>
-
-            <input type="text" name="url" value="http://localhost:8080/session-details/" placeholder="" id="sessionServiceUrl">      
-      </div>
-      <div class="reg_section password">
-      <h3>Response </h3>
-      
-      <textarea name="address" id="sessionResponse">Response Will Appear here</textarea>
-      </div>   
-      <p class="terms">
-        <label>
-          
-        </label>
-      </p>
-      <p class="submit"><input type="button" name="commit" value="Invoke Service" id="sessionServiceInvokeButton"></p>
+      <br>      
       </form>
+      
+      <p class="submit">Create DDOS Attack : <input type="button" name="attack" value="Make DDOS Attack" id="attackerButton"></p>
     </section>
+    <div id="attckStatus" style="color: #FFF;">
+    <div id="attackinnr"></div>
+      <div class="ajaxLoader2" style="display: none; margin: 0 700px; bottom:0px;"><img style="" src="/static/images/ajax-loader2.gif"> </div>
+    
+    </div>
   </div>
   
   <div class="ajaxLoader" style="display: none; position: absolute; margin: 0 649px; top:400px;"><img style="" src="/static/images/ajax-loader.gif"> </div>
@@ -87,7 +78,8 @@ $(function() {
 					$("#userResponse").val(JSON.stringify(data));
 
 				} else {
-					$("#userResponse").val(JSON.stringify(data));					
+					$("#userResponse").val(JSON.stringify(data));		
+					$(".loginLink").show();
 				}
 				$(".ajaxLoader").hide();
 
@@ -101,8 +93,63 @@ $(function() {
 	});
 	
 	
+	
+	$("#attackerButton").click(function(){
+		var r = confirm("This will Create DDOS Attack on server !!!, The Current Logged in user will be blocked. Are you sure to create DDOS Attack with current user??");
+		if (r == true)
+		  {
+		  createDDOSAttack($(this).data("id"),$(this).data("accessToken"))
+		  }
+		else
+		  {
+		  }
+	});
+	
+	
+	
 });
-</script>
+
+
+			function createDDOSAttack(id, accessToken) {
+
+				$(".ajaxLoader2").show();
+
+				makeAjaxCall(1);
+
+
+			}
+
+			function makeAjaxCall(cur) {
+				var resp;
+				var index=cur+1;
+				$.ajax({
+					url : $("#userServiceUrl").val(),
+					type : "get",
+					data : '',
+					dataType : "json",					
+					success : function(data) {
+						$(".ajaxLoader2").focus();
+						$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+						if (data.error == undefined) {
+							$("#attackinnr").append("<br>" +"--------------"+"<br>"+"Request Number "+index+"<br>"+JSON.stringify(data)+"<br><br>");
+							makeAjaxCall(index);
+						} else {
+							alert("User is blocked on request "+index);
+							$(".ajaxLoader2").hide();
+							return false;
+						}
+
+					},
+					error : function() {
+						alert("Error At Server");
+						$(".ajaxLoader2").hide();
+
+					}
+
+				});
+				return resp;
+			}
+		</script>
 
 </body>
 </html>

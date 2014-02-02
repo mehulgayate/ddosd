@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ddosd.facade.entity.DemonEvent.DemonType;
+import com.ddosd.facade.entity.User.UserRole;
 import com.ddosd.facade.entity.User.UserStatus;
 import com.ddosd.facade.entity.UserSession.SessionStatus;
 
@@ -43,9 +44,16 @@ public class FacadeRepository {
 				.setParameter("status", SessionStatus.ACTIVE).uniqueResult();	
 	}
 	
+	public com.ddosd.facade.entity.UserSession findActiveUserSessionByUser(User user){
+		return (com.ddosd.facade.entity.UserSession) getSession().createQuery("From "+UserSession.class.getName()+" us where us.user=:user AND us.status=:status")
+				.setParameter("user",user)
+				.setParameter("status", SessionStatus.ACTIVE).uniqueResult();	
+	}
+	
 	public List<User> listAllUsers(){		
-		return getSession().createQuery("FROM "+User.class.getName() +" u where u.status=:status")
-				.setParameter("status", UserStatus.ACTIVE).list();
+		return getSession().createQuery("FROM "+User.class.getName() +" u where u.status=:status AND u.role=:role")
+				.setParameter("status", UserStatus.ACTIVE)
+				.setParameter("role", UserRole.NORMAL).list();
 	}
 	
 	public List<User> listAllBlockedUsers(){		
@@ -67,7 +75,7 @@ public class FacadeRepository {
 	
 	public DemonEvent findLatestDemonEvent(DemonType demonType){
 		
-		return (DemonEvent) getSession().createQuery("from "+DemonEvent.class.getName()+" de where de.startTime=(select max(innr.startTime) from "+DemonEvent.class.getName()+" innr) AND de.type=:type")
+		return (DemonEvent) getSession().createQuery("from "+DemonEvent.class.getName()+" de where de.startTime=(select max(innr.startTime) from "+DemonEvent.class.getName()+" innr where innr.type=:type) AND de.type=:type")
 				.setParameter("type", demonType)
 				.uniqueResult();
 	}

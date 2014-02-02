@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Registration Form</title>
+  <title>User Login</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
@@ -17,7 +17,7 @@
 <body>
   <div class="container">
     <section class="register">
-      <h1>Register on iMomen</h1>
+      <h1>User Login</h1>
       <form method="post" action="/login" id="loginForm">
       <div class="reg_section personal_info">
       <h3>Login</h3>

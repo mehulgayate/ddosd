@@ -75,7 +75,6 @@ public class FacadeService {
 
 		if((user.getTrustScore()+config.getThreshod())<session.getRequestCount()){
 
-			System.out.println(user.getTrustScore()+config.getThreshod()+config.getBufferSize()+ " <= " +session.getRequestCount());
 
 			if((user.getTrustScore()+config.getThreshod()+config.getBufferSize())>=session.getRequestCount()){
 				Thread currentThread=Thread.currentThread();

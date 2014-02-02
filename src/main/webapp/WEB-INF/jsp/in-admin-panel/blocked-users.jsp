@@ -52,7 +52,7 @@ ddaccordion.init({
 	<div class="header">
     <div class="logo"><a href="#"><img src="" alt="" title="" border="0" /></a></div>
     
-    <div class="right_header">Welcome Admin, <a href="#">Visit site</a> | <a href="#" class="logout">Logout</a></div>
+    <div class="right_header">Welcome Admin, <a href="#">Visit site</a> | <a href="/logout" class="logout">Logout</a></div>
     <div id="clock_a"></div>
     </div>
     

@@ -16,6 +16,7 @@ import com.ddosd.facade.entity.AccessToken;
 import com.ddosd.facade.entity.FacadeRepository;
 import com.ddosd.facade.entity.Session;
 import com.ddosd.facade.entity.User;
+import com.ddosd.facade.entity.User.UserRole;
 import com.ddosd.facade.entity.User.UserStatus;
 import com.ddosd.facade.entity.UserSession;
 import com.ddosd.facade.entity.UserSession.SessionStatus;
@@ -81,15 +82,22 @@ public class DetectionInterceptor implements HandlerInterceptor {
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
 			User user=userService.validate(email, password);
-			response.setContentType("application/json");
-			if(user.getStatus()==UserStatus.BLOCKED){
-				PrintWriter out=response.getWriter();
-				out.print(facadeService.getErrorResponse(new Long(104), "User is blocked, Kindly contact admin@ddosd.com"));
-				out.flush();
-				return false;
-			}
+			response.setContentType("application/json");		
 
 			if(user!=null){
+				
+				if(user.getRole()==UserRole.ADMIN){
+					request.getSession().setAttribute("user", user);
+					return true;
+				}
+				
+				if(user.getStatus()==UserStatus.BLOCKED){
+					PrintWriter out=response.getWriter();
+					out.print(facadeService.getErrorResponse(new Long(104), "User is blocked, Kindly contact admin@ddosd.com"));
+					out.flush();
+					return false;
+				}
+				
 				AccessToken accessToken=user.getAccessToken();
 				if(accessToken==null){
 					accessToken=AccessToken.generateToken(user);

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ddosd.facade.entity.AccessToken;
 import com.ddosd.facade.entity.DemonEvent.DemonType;
 import com.ddosd.facade.entity.FacadeRepository;
 import com.ddosd.facade.entity.Session;
 import com.ddosd.facade.entity.User;
+import com.ddosd.facade.entity.UserSession;
 import com.ddosd.facade.entity.User.UserRole;
 import com.ddosd.facade.entity.User.UserStatus;
+import com.ddosd.facade.entity.UserSession.SessionStatus;
 import com.ddosd.facade.entity.support.UserForm;
 import com.ddosd.facade.web.support.FacadeService;
 import com.evalua.entity.support.DataStoreManager;
@@ -36,21 +40,27 @@ public class FacadeResponseController {
 
 	@RequestMapping("/seed-admin")
 	public ModelAndView seedUsers(){
-		ModelAndView mv=new ModelAndView("redirect:/login");
-		User user=new User();
-		user.setEmail("mehulgayate21@gmail.com");
-		user.setPassword("123");
+		ModelAndView mv=new ModelAndView("redirect:/user/login");
+		User user=facadeRepository.findUserByEmail("admin@dgmail.com");
+		if(user==null){
+		user=new User();
+		user.setEmail("admin@gmail.com");
+		user.setPassword("1234");
 		user.setName("Mehul Gayate");
 		user.setStatus(UserStatus.ACTIVE);
 		user.setRole(UserRole.ADMIN);
 		dataStoreManager.save(user);
+		}
 		return mv;
 	}
 
 	@RequestMapping("/login")
-	public ModelAndView login(){
+	public ModelAndView login(HttpSession httpSession){
 		ModelAndView mv=new ModelAndView("login");
-
+		User userl=(User) httpSession.getAttribute("user");
+		if(userl!=null){
+			return new ModelAndView("redirect:/admin");
+		}
 		return mv;
 	}
 
@@ -64,7 +74,12 @@ public class FacadeResponseController {
 
 
 	@RequestMapping("/admin")
-	public ModelAndView showAdminScreen(){
+	public ModelAndView showAdminScreen(HttpSession httpSession){
+		User userl=(User) httpSession.getAttribute("user");
+		if(userl==null){
+			return new ModelAndView("redirect:/admin-login");
+		}
+		
 		ModelAndView mv=new ModelAndView("in-admin-panel/index");
 		List<User> users=facadeRepository.listAllUsers();
 
@@ -80,7 +95,11 @@ public class FacadeResponseController {
 
 
 	@RequestMapping("/blocked-users")
-	public ModelAndView showBlockedUsersScreen(){
+	public ModelAndView showBlockedUsersScreen(HttpSession httpSession){
+		User userl=(User) httpSession.getAttribute("user");
+		if(userl==null){
+			return new ModelAndView("redirect:/admin-login");
+		}
 		ModelAndView mv=new ModelAndView("in-admin-panel/blocked-users");
 		List<User> users=facadeRepository.listAllBlockedUsers();
 
@@ -137,12 +156,24 @@ public class FacadeResponseController {
 		ModelAndView mv=new ModelAndView("redirect:/admin");
 		User user=facadeRepository.findUserById(userId);
 		user.setStatus(UserStatus.ACTIVE);
+		AccessToken accessToken=user.getAccessToken();
+		if(accessToken!=null){
+			user.setAccessToken(null);
+			UserSession userSession=facadeRepository.findActiveUserSessionByUser(user);
+			userSession.setStatus(SessionStatus.INACTIVE);
+			dataStoreManager.save(userSession);
+			dataStoreManager.delete(accessToken);
+		}
 		dataStoreManager.save(user);
 		return mv;
 	}
 	
 	@RequestMapping("/admin/activate-monitor")
-	public ModelAndView demonMonitor(HttpServletRequest request){
+	public ModelAndView demonMonitor(HttpServletRequest request,HttpSession httpSession){
+		User userl=(User) httpSession.getAttribute("user");
+		if(userl==null){
+			return new ModelAndView("redirect:/admin-login");
+		}
 		ModelAndView mv=new ModelAndView("in-admin-panel/demon-monitor");
 		mv.addObject("queueDemon",facadeRepository.findLatestDemonEvent(DemonType.BUFFERED_REQUEST_DEMON));
 		mv.addObject("sessionDemon",facadeRepository.findLatestDemonEvent(DemonType.SESSION_VALIDATOR_DEMON));
@@ -150,5 +181,11 @@ public class FacadeResponseController {
 
 
 		return mv;
+	}
+	
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpSession session){
+		session.invalidate();
+		return new ModelAndView("redirect:/user/login");
 	}
 }

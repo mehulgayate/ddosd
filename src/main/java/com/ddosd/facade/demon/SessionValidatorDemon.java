@@ -64,7 +64,6 @@ public class SessionValidatorDemon extends TimerTask{
 			System.out.println(getChangedDateByMins(new Date(),-10)+" ****** user  "+session.getStartTime());
 
 			if(session.getStartTime().before(getChangedDateByMins(new Date(),-10))){
-				System.out.println("inside inner if");
 				session.setEndTime(new Date());
 				Query queryBlock=hibernateSession.createQuery("From "+UserSession.class.getName()+" us where us.session=:session");
 				queryBlock.setParameter("session", session);

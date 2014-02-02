@@ -78,6 +78,11 @@
 	    <constructor-arg><value>${schedular.delay}</value></constructor-arg>
 	    <constructor-arg><value>${schedular.interval}</value></constructor-arg>
 	</bean>
+	<bean id="trustScoreCalculator" class="com.ddosd.facade.demon.TrustScoreCalculatorDemon" init-method="init">
+	    <constructor-arg ref="sessionFactory" />		  
+	    <constructor-arg><value>${calc.delay}</value></constructor-arg>
+	    <constructor-arg><value>${calc.interval}</value></constructor-arg>
+	</bean>
 	<bean id="dataStoreManager"
 		class="com.evalua.entity.support.DataStoreManager">
 		<property name="sessionFactory" ref="sessionFactory" />
