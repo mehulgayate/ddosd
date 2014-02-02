@@ -22,6 +22,9 @@
       <br>
       <br>
       <a href="/admin">Admin Page</a>
+      <br>
+      <br>
+      <a href="/register">New User Sign UP</a>
     </section>
   </div>
 </body>
