@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,6 +41,8 @@ public class DetectionInterceptor implements HandlerInterceptor {
 	private FacadeRepository repository;	
 	
 	List<String> ignoreAuthenticationActions;
+	
+	public static Logger logger=LoggerFactory.getLogger(DetectionInterceptor.class);
 
 	
 	public List<String> getIgnoreAuthenticationActions() {
@@ -76,15 +80,19 @@ public class DetectionInterceptor implements HandlerInterceptor {
 		if (ignoreAuthenticationActions.contains(requestURI)) {
 			return true;
 		}
-
-		System.out.println("*********** "+requestURI);
+		
 		if(requestURI.indexOf("login")>=0){
 			String email=request.getParameter("email");
-			String password=request.getParameter("password");
+			String password=request.getParameter("password");			
 			User user=userService.validate(email, password);
 			response.setContentType("application/json");		
 
 			if(user!=null){
+				
+				logger.info("*********** >>>>>>> User with id "+user.getId()+" Logged in at time :"+new Date());
+				logger.info("*********** >>>>>>>>>>>>>Name : "+user.getName());
+				logger.info("*********** >>>>>>>>>>>>>Email : "+user.getEmail());
+				
 				
 				if(user.getRole()==UserRole.ADMIN){
 					request.getSession().setAttribute("user", user);

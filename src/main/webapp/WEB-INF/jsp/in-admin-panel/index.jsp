@@ -72,7 +72,7 @@ ddaccordion.init({
     <div class="center_content">  
     <div class="right_content">            
         
-    <h2>Blocked Users</h2> 
+    <h2>All Users</h2> 
                     
                     
 <table id="rounded-corner" summary="Blocked Users">
