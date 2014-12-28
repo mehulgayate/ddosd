@@ -15,7 +15,8 @@
   <div class="container">
     <section class="register">
       <h1>Registration Complete</h1>
-      
+      <br/>
+		<a href="/user/login">Login</a>      
     </section>
   </div>
 </body>
