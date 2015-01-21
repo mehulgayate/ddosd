@@ -14,9 +14,10 @@
 <body>
   <div class="container">
     <section class="register">
-      <h1>Registration Complete</h1>
+      <h1>User already exists please try again.</h1>
       <br>
-      <a href="/">Login</a>
+      <a href="/register">Sign up</a>
+      
     </section>
   </div>
 </body>

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -127,11 +128,25 @@ public class FacadeResponseController {
 
 		return mv;
 	}
+	
+	@RequestMapping("/signup-retry")
+	public ModelAndView retry(){
+		ModelAndView mv=new ModelAndView("signup/retry");
+
+		return mv;
+	}
 
 	@RequestMapping("/register/add")
 	public ModelAndView registerNewUser(HttpServletRequest request,@ModelAttribute(UserForm.key) UserForm userForm){
 		ModelAndView mv=new ModelAndView("signup/complete");
-		facadeService.addUser(userForm);
+		
+		if(StringUtils.isNotBlank(userForm.getEmail()) && StringUtils.isNotBlank(userForm.getPassword())){
+			User user=facadeRepository.findUserByEmail(userForm.getEmail());
+			if(user!=null){
+				return new ModelAndView("redirect:/signup-retry");
+			}
+			facadeService.addUser(userForm);
+		}
 		return mv;
 	}
 

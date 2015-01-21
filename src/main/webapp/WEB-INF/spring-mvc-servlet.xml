@@ -47,7 +47,7 @@ http://www.springframework.org/schema/context/spring-context.xsd ">
                                         <value>/admin/activate-user</value>  
                                         <value>/logout</value> 
                                         <value>/seed-admin</value> 
-                                                                                                              
+                                        <value>/signup-retry</value>                                        
                                 </list>
                          </property>
                 </bean>
