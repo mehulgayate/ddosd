@@ -33,7 +33,7 @@
       <div class="reg_section password reg_section personal_info">
          <h3>User Detail Service URL</h3>
         
-            <input type="text" name="url" value="http://localhost:8080/user/${userId}?access_token=${accessToken}&userId=${userId}" placeholder="" id="userServiceUrl">      
+            <input type="text" name="url" value="/user/${userId}?access_token=${accessToken}&userId=${userId}" placeholder="" id="userServiceUrl">      
       </div>
       <div class="reg_section password">
       <h3>Response </h3>

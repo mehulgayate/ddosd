@@ -28,6 +28,8 @@
       <div class="reg_section password">
       <h3>Your Address</h3>
       <select>
+      	<option value="">India</option>
+      	<option value="">China</option>
         <option value="">Egypt</option>
         <option value="">Palastine</option>
         <option value="">Syria</option>
