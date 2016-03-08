@@ -17,44 +17,9 @@
 <body>
   <div class="container">
     <section class="register">
-      <h1>Service Invoker </h1>
-      <form method="post" action="/register/add">
-      <div class="reg_section personal_info">
-      <h3>User OAuth Information</h3>
-      <label>
-          Logged In User Id :
-        </label>
-      <input type="text" name="name" value="${userId}" placeholder="Your Desired Username">
-      <label>
-          Logged In User AccessToken :
-        </label>
-      <input type="text" name="email" value="${accessToken}" placeholder="Your E-mail Address">
-      </div>   
-      <div class="reg_section password reg_section personal_info">
-         <h3>User Detail Service URL</h3>
-        
-            <input type="text" name="url" value="/user/${userId}?access_token=${accessToken}&userId=${userId}" placeholder="" id="userServiceUrl">      
-      </div>
-      <div class="reg_section password">
-      <h3>Response </h3>
+      <h1>Upload result</h1>
+      ${valid}
       
-      <textarea name="address" id="userResponse">Response Will Appear here</textarea>
-      </div>   
-      <p class="terms">
-        <label>
-          
-        </label>
-      </p>
-      <p class="submit"><a class= "loginLink" href="/user/login" style="display:none; margin-right: 5px;">Login Again</a><input type="button" name="commit" value="Invoke Service" id="userServiceInvokeButton"></p>
-       
-      
-      <br>
-      <br>      
-      </form>
-      
-      <p class="submit">Create DDOS Attack : <input type="button" name="attack" value="Make DDOS Attack" id="attackerButton"></p>
-      <br/>
-      <p>XML Operations : <a href="/invoke-xml?userId=${userId}&accessToken=${accessToken}">Upload XML</a></p>
     </section>
     <div id="attckStatus" style="color: #FFF;">
     <div id="attackinnr"></div>

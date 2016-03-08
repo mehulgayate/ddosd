@@ -18,7 +18,9 @@
   <div class="container">
     <section class="register">
       <h1>Service Invoker </h1>
-      <form method="post" action="/register/add">
+      <form method="post" action="/new-attachment" enctype="multipart/form-data">
+      <input type="hidden" name ="access_token" value="${accessToken}">
+      <input type="hidden" name = "userId" value="${userId}">
       <div class="reg_section personal_info">
       <h3>User OAuth Information</h3>
       <label>
@@ -31,30 +33,24 @@
       <input type="text" name="email" value="${accessToken}" placeholder="Your E-mail Address">
       </div>   
       <div class="reg_section password reg_section personal_info">
-         <h3>User Detail Service URL</h3>
+         <h3>Upload XML file</h3>
         
-            <input type="text" name="url" value="/user/${userId}?access_token=${accessToken}&userId=${userId}" placeholder="" id="userServiceUrl">      
+        	
+            <input type="file" name="file" placeholder="" id="file">  
       </div>
-      <div class="reg_section password">
-      <h3>Response </h3>
-      
-      <textarea name="address" id="userResponse">Response Will Appear here</textarea>
-      </div>   
+         
       <p class="terms">
         <label>
           
         </label>
       </p>
-      <p class="submit"><a class= "loginLink" href="/user/login" style="display:none; margin-right: 5px;">Login Again</a><input type="button" name="commit" value="Invoke Service" id="userServiceInvokeButton"></p>
+      <p class="submit"><a class= "loginLink" href="/user/login" style="display:none; margin-right: 5px;">Login Again</a><input type="submit" name="commit" value="Invoke Service" ></p>
        
       
       <br>
       <br>      
       </form>
       
-      <p class="submit">Create DDOS Attack : <input type="button" name="attack" value="Make DDOS Attack" id="attackerButton"></p>
-      <br/>
-      <p>XML Operations : <a href="/invoke-xml?userId=${userId}&accessToken=${accessToken}">Upload XML</a></p>
     </section>
     <div id="attckStatus" style="color: #FFF;">
     <div id="attackinnr"></div>

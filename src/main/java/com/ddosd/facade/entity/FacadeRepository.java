@@ -16,6 +16,19 @@ import com.ddosd.facade.entity.UserSession.SessionStatus;
 
 @Transactional
 public class FacadeRepository {
+	
+	private int xmlTagLimit;
+	
+
+	
+
+	public int getXmlTagLimit() {
+		return xmlTagLimit;
+	}
+
+	public void setXmlTagLimit(int xmlTagLimit) {
+		this.xmlTagLimit = xmlTagLimit;
+	}
 
 	@Resource
 	private SessionFactory sessionFactory;
@@ -55,6 +68,11 @@ public class FacadeRepository {
 				.setParameter("status", UserStatus.ACTIVE)
 				.setParameter("role", UserRole.NORMAL).list();
 	}
+	
+	public List<FileAttachment> listAllFileAttachments(){		
+		return getSession().createQuery("FROM "+FileAttachment.class.getName()).list();
+	}
+	
 	
 	public List<User> listAllBlockedUsers(){		
 		return getSession().createQuery("FROM "+User.class.getName() +" u where u.status=:status")

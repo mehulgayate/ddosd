@@ -83,13 +83,18 @@
 	    <constructor-arg><value>${calc.delay}</value></constructor-arg>
 	    <constructor-arg><value>${calc.interval}</value></constructor-arg>
 	</bean>
+	<bean id="multipartResolver"
+                class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	<bean id="dataStoreManager"
 		class="com.evalua.entity.support.DataStoreManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="facadeRepository"
 		class="com.ddosd.facade.entity.FacadeRepository">
-		<property name="sessionFactory" ref="sessionFactory" />		
+		<property name="sessionFactory" ref="sessionFactory" />	
+		<property name="xmlTagLimit">
+       		 <value>${xmlTagLimit}</value>
+   		</property>	
 	</bean>
 	<bean id="userService"
 		class="com.ddosd.facade.service.UserService">

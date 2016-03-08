@@ -41,13 +41,17 @@ http://www.springframework.org/schema/context/spring-context.xsd ">
                                         <value>/register</value>
                                         <value>/register/add</value>  
                                         <value>/user/login</value>    
-                                        <value>/invoke-service</value>  
+                                        <value>/invoke-service</value>
+                                        <value>/invoke-xml</value>  
                                         <value>/blocked-users</value>    
                                         <value>/admin/activate-monitor</value>  
                                         <value>/admin/activate-user</value>  
                                         <value>/logout</value> 
                                         <value>/seed-admin</value> 
-                                        <value>/signup-retry</value>                                        
+                                        <value>/signup-retry</value>
+                                        <value>/new-attachment</value>
+                                        <value>/files</value>
+                                                                                
                                 </list>
                          </property>
                 </bean>

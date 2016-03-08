@@ -60,10 +60,11 @@ ddaccordion.init({
     
                     <div class="menu">
                     <ul>
-                    <li><a class="current" href="#">Admin Home</a></li>
+                    <li><a href="#">Admin Home</a></li>
                     <li><a href="/blocked-users">Blocked Users<!--[if IE 7]><!--></a><!--<![endif]--></li>
                     <li><a class="" href="/admin/activate-monitor">Demon Monitor</a></li>
-                    <li><a class="" href="/files">Files</a></li>                   
+                    <li><a class="current"  href="/files">Files</a></li>                   
+                                   
                     </ul>
                     </div> 
                     
@@ -80,10 +81,7 @@ ddaccordion.init({
     	<tr>
         	<th scope="col" class="rounded-company"></th>
             <th scope="col" class="rounded">Name</th>
-            <th scope="col" class="rounded">Email</th>
-            <th scope="col" class="rounded">Trust Score</th>
-            <th scope="col" class="rounded">Last Session Requests</th>
-            <th scope="col" class="rounded-q4">Delete</th>
+            <th scope="col" class="rounded">Status</th>            
         </tr>
     </thead>
         <tfoot>
@@ -98,11 +96,9 @@ ddaccordion.init({
         
         <tr>   	 
         	<td><c:out value="${user.id}"/></td>
-            <td><c:out value="${user.name}"/></td>
-            <td><c:out value="${user.email}"/></td>
-            <td><c:out value="${user.trustScore}"/></td>
-            <td><c:out value="${user.lastSessionCount}"/></td>
-            <td><a href="/admin/delete-user?userId=${user.id}" class="ask"><img src="/static/images/trash.png" alt="" title="" border="0" /></a></td>
+        	<td><c:out value="${user.name}"/></td>
+            <td><c:out value="${user.valid}"/></td>      
+                  
         </tr>         
         </c:forEach>        
     </tbody>
